@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful){
                     var posts = response.body()
                     Toast.makeText(baseContext,"fetched ${posts!!.size}posts", Toast.LENGTH_LONG).show()
-                    var displayPostsRvAdaptor=displayPostsRvAdaptor(baseContext,posts)
+                    var displayPostsRvAdaptor=PostRvAdapter(posts)
                     Log.d("Task",posts.toString())
                     binding.rvDisplay.layoutManager=LinearLayoutManager(baseContext)
                     binding.rvDisplay.adapter=displayPostsRvAdaptor
@@ -37,8 +37,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<Post>>, t: Throwable) {
+                Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
+
+
 
             }
         })
+    }
+
+    fun displayPosts(postList: List<Post>){
+        binding.rvDisplay.layoutManager = LinearLayoutManager(this)
+        var postsAdapter = PostRvAdapter(postList)
+        binding.rvDisplay.adapter = postsAdapter
+
     }
 }
